@@ -7,7 +7,19 @@ const tempRoutes = require('./api/routes/temp');
 const InfoRoutes = require('./api/routes/info');
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://mehwish:1234@node-temp-info-shard-00-00-jgoqt.mongodb.net:27017,node-temp-info-shard-00-01-jgoqt.mongodb.net:27017,node-temp-info-shard-00-02-jgoqt.mongodb.net:27017/test?ssl=true&replicaSet=node-temp-info-shard-0&authSource=admin');
+var mongoURI;
+
+mongoose.connection.on("open", function(ref) {
+  console.log("Connected to mongo server.");
+});
+
+mongoose.connection.on("error", function(err) {
+  console.log("Could not connect to mongo server!");
+});
+
+mongoURI = "mongodb://localhost:27017/IoT";
+
+connection = mongoose.connect(mongoURI);
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
